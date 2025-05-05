@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose.Schema;
 
-const cartSchema = new Schema(
+const orderSchema = new mongoose.Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -22,9 +22,22 @@ const cartSchema = new Schema(
         },
       },
     ],
+    orderDate: {
+      type: Date,
+      default: Date.now,
+    },
+    total_price: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "shipped", "delivered", "cancelled"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );
 
-const Cart = mongoose.model.Cart || mongoose.model("Cart", cartSchema);
-export default Cart;
+const Order = mongoose.model("Order", orderSchema);
+export default Order;
